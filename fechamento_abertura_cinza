@@ -1,0 +1,18 @@
+import cv2
+import numpy as np
+
+imagemOriginal = cv2.imread("celulas\\a.jpg", 0)
+elementoEstruturante = cv2.getStructuringElement(cv2.MORPH_CROSS, (25,25))
+
+imagemProcessada = cv2.morphologyEx(imagemOriginal, cv2.MORPH_OPEN, elementoEstruturante)
+
+imagemsubtraida = cv2.subtract(imagemOriginal, imagemProcessada)
+
+imagemtratada = cv2.add(imagemsubtraida, imagemsubtraida)
+
+imagemtratada = cv2.resize(imagemtratada, (0,0), fx=0.5, fy=0.5)
+
+cv2.imshow("resultado", imagemtratada)
+
+cv2.waitKey(0)
+cv2.destroyAllWindows()

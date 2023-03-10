@@ -1,0 +1,15 @@
+import cv2
+import numpy as np
+
+imagemOriginal = cv2.imread("celulas\\a.jpg", 0)
+elementoEstruturante = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (13,13))
+
+imagemProcessada = cv2.erode(imagemOriginal, elementoEstruturante, iterations=3)
+
+
+imagemProcessada = cv2.resize(imagemProcessada, (0,0), fx=0.5, fy=0.5)
+
+cv2.imshow("resultado", imagemProcessada)
+
+cv2.waitKey(0)
+cv2.destroyAllWindows()

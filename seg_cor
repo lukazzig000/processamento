@@ -1,0 +1,31 @@
+import cv2
+import numpy as np
+
+roxo = np.uint8([[[178,117,221]]])
+roxoHSV = cv2.cvtColor(roxo, cv2.COLOR_BGR2HSV)
+print(roxoHSV)
+
+roxoescuro = np.uint8([[[130,8,78]]])
+roxoHSVescuro = cv2.cvtColor(roxoescuro, cv2.COLOR_BGR2HSV)
+print(roxoHSVescuro)
+
+
+imgRGB = cv2.imread("celulas\\6.jpg")
+imgHSV = cv2.cvtColor(imgRGB, cv2.COLOR_BGR2HSV)
+
+'''
+tomClaro = np.array([330,42,76])
+tomEscuro = np.array([326,36,38])
+'''
+tomClaro = np.array([61,20,29])
+tomEscuro = np.array([52,26,26])
+
+imSegmentada = cv2.inRange(imgRGB, tomClaro, tomEscuro)
+
+
+
+cv2.imshow("Original", imgRGB)
+cv2.imshow("Segmentada", imSegmentada)
+
+cv2.waitKey(0)
+cv2.destroyAllWindows()
