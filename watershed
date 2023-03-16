@@ -1,0 +1,32 @@
+import cv2
+import numpy as np
+from skimage.color import rgb2gray
+from matplotlib import pyplot as plt #graficos e imagens
+from scipy import ndimage as ndi
+from skimage.segmentation import watershed
+from skimage.feature import peak_local_max
+
+#função mostrar imagem
+
+def mostrar(imagem):
+  fig = plt.gcf()
+  fig.set_size_inches(18,6)
+  plt.imshow(cv2.cvtColor(imagem, cv2.COLOR_BGR2RGB))
+  plt.axis('off')
+  plt.show()
+
+img = cv2.imread('celulas\\a.jpg')
+
+gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+
+val, thresh = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY_INV | cv2.THRESH_OTSU)
+
+dilatacao = cv2.dilate(thresh, np.ones((3,3), np.uint8), iterations=2)
+seg = cv2.erode(dilatacao, np.ones((3,3), np.uint8), iterations=2)
+
+dist = ndi.distance_transform_edt(seg)
+dist = (255*(dist/dist.max())).astype(np.uint8) # Escala e converte para uint8
+
+local_max = peak_local_max(dist, indices = False,  min_distance=20, labels=seg)
+print(local_max)
+
